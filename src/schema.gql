@@ -1,0 +1,152 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserObject {
+  id: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  status: UserStatus!
+  role: UserRole!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  fullName: String!
+  clients: [ClientObject!]!
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  CLIENT_ADMIN
+  CLIENT_WRITER
+  CLIENT_READER
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ClientObject {
+  id: String!
+  name: String!
+  status: ClientStatus!
+  createdAt: DateTime!
+  updatedAt: DateTime
+}
+
+enum ClientStatus {
+  ACTIVE
+  INACTIVE
+}
+
+type PersonOfInterestObject {
+  number: Int!
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  clientId: String!
+  name: String
+  bornAt: DateTime
+  notes: String
+  gender: PersonOfInterestGender
+}
+
+enum PersonOfInterestGender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+type IncidentObject {
+  number: Int!
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime
+  observedAt: DateTime
+  notes: String
+  personOfInterestId: String!
+}
+
+type Query {
+  getUsers(ids: [String!], withClientIds: [String!]): [UserObject!]!
+  getUser(id: String!): UserObject!
+  getClients(userIds: [String!], ids: [String!]): [ClientObject!]!
+  getClient(id: String!): ClientObject!
+  getPersonsOfInterest(ids: [String!], clientIds: [String!]): [PersonOfInterestObject!]!
+  getPersonOfInterest(id: String!): PersonOfInterestObject!
+  getIncidents(ids: [String!], personOfInterestIds: [String!], clientIds: [String!]): [IncidentObject!]!
+  getIncident(id: String!): IncidentObject!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): UserObject!
+  updateUser(updateUserInput: UpdateUserInput!, id: String!): UserObject!
+  deleteUser(id: String!): String!
+  deactivateUser(id: String!): UserObject!
+  activateUser(id: String!): UserObject!
+  createClient(createClientInput: CreateClientInput!): ClientObject!
+  updateClient(updateClientInput: UpdateClientInput!, id: String!): ClientObject!
+  deleteClient(id: String!): String!
+  createPersonOfInterest(createPersonOfInterestInput: CreatePersonOfInterestInput!): PersonOfInterestObject!
+  updatePersonOfInterest(updatePersonOfInterestInput: UpdatePersonOfInterestInput!, id: String!): PersonOfInterestObject!
+  deletePersonOfInterest(id: String!): String!
+  createIncident(createIncidentInput: CreateIncidentInput!): IncidentObject!
+  updateIncident(updateIncidentInput: UpdateIncidentInput!, id: String!): IncidentObject!
+  deleteIncident(id: String!): String!
+}
+
+input CreateUserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  role: UserRole!
+  clientIds: [String!]!
+}
+
+input UpdateUserInput {
+  firstName: String
+  lastName: String
+  email: String
+  role: UserRole
+  clientIds: [String!]
+}
+
+input CreateClientInput {
+  name: String!
+}
+
+input UpdateClientInput {
+  name: String
+}
+
+input CreatePersonOfInterestInput {
+  clientId: String!
+  name: String
+  bornAt: String
+  notes: String
+  gender: PersonOfInterestGender
+}
+
+input UpdatePersonOfInterestInput {
+  name: String
+  bornAt: String
+  notes: String
+  gender: PersonOfInterestGender
+}
+
+input CreateIncidentInput {
+  observedAt: String!
+  personOfInterestId: String!
+  notes: String
+}
+
+input UpdateIncidentInput {
+  observedAt: String
+  notes: String
+}
