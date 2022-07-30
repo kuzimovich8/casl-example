@@ -41,7 +41,7 @@ export class CaslAbilityFactory {
 
     can('readList', ClientEntity);
     can('read', ClientEntity, (subject) => subject.clientsUsers.map((item) => item.userId).includes(user.id));
-    cannot('test', ClientEntity).because('Sorry, do not have a permission');
+    cannot('test', ClientEntity).because('Sorry, no permission');
 
     // person of interest
 

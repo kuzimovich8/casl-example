@@ -1,6 +1,8 @@
 import { ForbiddenException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { ForbiddenError } from '@casl/ability';
 import { Connection } from 'typeorm';
+
 import { ClientObject } from '@app/client/objects/client.object';
 import { ClientService } from '@app/client/client.service';
 import { GetClientsArgs } from '@app/client/args/get-clients.args';
@@ -20,6 +22,18 @@ export class ClientResolver {
     private personOfInterestService: PersonOfInterestService,
     private connection: Connection,
   ) {}
+
+  @UseGuards(GqlAuthGuard)
+  @Query(() => String)
+  test(@GqlUser() currentUser: CurrentUserData): string {
+    try {
+      ForbiddenError.from(currentUser.ability).throwUnlessCan('test', ClientEntity);
+
+      return 'ok';
+    } catch (error) {
+      throw new ForbiddenException(error.message);
+    }
+  }
 
   @UseGuards(GqlAuthGuard)
   @Query(() => [ClientObject])

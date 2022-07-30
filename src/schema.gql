@@ -76,6 +76,7 @@ type IncidentObject {
 type Query {
   getUsers(ids: [String!], withClientIds: [String!]): [UserObject!]!
   getUser(id: String!): UserObject!
+  test: String!
   getClients(userIds: [String!], ids: [String!]): [ClientObject!]!
   getClient(id: String!): ClientObject!
   getPersonsOfInterest(ids: [String!], clientIds: [String!]): [PersonOfInterestObject!]!
