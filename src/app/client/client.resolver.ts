@@ -42,12 +42,6 @@ export class ClientResolver {
       throw new ForbiddenException();
     }
 
-    // try {
-    //   ForbiddenError.from(ability).throwUnlessCan('test', ClientEntity);
-    // } catch (error) {
-    //   throw new ForbiddenException(error.message);
-    // }
-
     const clientEntities = await this.clientService.getClients(
       { ...args, ...(currentUser.role !== UserRole.SUPER_ADMIN ? { userIds: [currentUser.id] } : {}) },
       this.connection.manager,
